@@ -29,7 +29,7 @@ void MatrixComposition::getMatrixComposition(Node* formula, ParametersMO* PMO, P
 	}
 	vector<Node*> spaceMatrix = calculateMatrix(metaoperations[formula->type], formula);
 	formula->spaceMatrix = spaceMatrix;
-	//std::system("cls");
+	std::system("cls");
 }
 
 vector<Node*> MatrixComposition::calculateMatrix(Multioperation* metaoperation, Node* formula)
@@ -41,7 +41,7 @@ vector<Node*> MatrixComposition::calculateMatrix(Multioperation* metaoperation, 
 			tempMatrix = stepMatrixComposition(metaoperation->getMatrix(), *iter);
 		else
 			tempMatrix = stepMatrixComposition(tempMatrix, *iter);
-		//cout << "\n";
+		cout << "\n";
 	}
 	vector<Node*> spaceMatrix;
 	for (int i = 0; i < rang; i++)
@@ -57,7 +57,7 @@ vector<vector<Node*>> MatrixComposition::stepMatrixComposition(vector<vector<Nod
 		vector<Node*> newMatrixRow;
 		for (int j = 0; j < matrix[i].size(); j += rang) {
 			Node* element = calculateElement(j, matrix[i], variable);
-			//cout << Console::ConsoleNode(element, _PBF->getListParameters()) << "\n";
+			cout << Console::ConsoleNode(element, _PBF->getListParameters()) << "\n";
 			int index = j == 0 ? j : j / rang;
 			newMatrixRow.push_back(element);
 		}

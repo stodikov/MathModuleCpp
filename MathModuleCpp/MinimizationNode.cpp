@@ -44,6 +44,15 @@ bool MinimizationNode::isEqualNodes(Node* first, Node* second)
     return true;
 }
 
+void MinimizationNode::minimizationVariablesInDisjunction(Node* disjunction)
+{
+    vector<Node*> newVariable = disjunction->variables;
+    newVariable = deleteRepeatVariables(newVariable);
+    newVariable = reducingVariables(newVariable);
+    disjunction->variables = newVariable;
+    return sortVariablesInDisjunction(disjunction);
+}
+
 vector<Node*> MinimizationNode::deleteRepeatVariables(vector<Node*> variables)
 {
     ConstantVectors CV;
@@ -99,15 +108,15 @@ int MinimizationNode::getMinIndex(vector<Node*> variables, vector<int> minIndexe
         if (variables[i]->type == TypesNode::CONSTANT) {
             continue;
         }
-        if (minIndex == -1 && find(minIndexes.begin(), minIndexes.end(), i) != minIndexes.end()) {
+        if (minIndex == -1 && find(minIndexes.begin(), minIndexes.end(), i) == minIndexes.end()) {
             minIndex = i;
             continue;
         }
-        if (variables[i]->type == TypesNode::PARAMETER && find(minIndexes.begin(), minIndexes.end(), i) != minIndexes.end()) {
+        if (variables[i]->type == TypesNode::PARAMETER && find(minIndexes.begin(), minIndexes.end(), i) == minIndexes.end()) {
             minIndex = i;
             break;
         }
-        if (variables[minIndex]->getCountParameters() < variables[i]->getCountParameters()) {
+        if (minIndex != -1 && variables[minIndex]->getCountParameters() < variables[i]->getCountParameters()) {
             minIndex = i;
         }
     }
