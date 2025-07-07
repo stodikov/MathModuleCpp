@@ -14,5 +14,6 @@ public:
 	vector<int> parametersVector;
 	vector<Node*> variables;
 	vector<Node*> spaceMatrix;
+	int getCountParameters();
 };
 

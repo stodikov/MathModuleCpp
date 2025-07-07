@@ -14,7 +14,7 @@ Node* NodeOperations::calculateNode(Node* first, Node* second)
         if (second->type == TypesNode::PARAMETER || second->type == TypesNode::CONJUNCTION)
             return unionVectors(first, second);
 
-        return unionDisjunctionAndNode(first, second);
+        return unionDisjunctionAndNode(second, first);
     }
     if (first->type == TypesNode::DISJUNCTION) {
         if (second->type == TypesNode::PARAMETER || second->type == TypesNode::CONJUNCTION)

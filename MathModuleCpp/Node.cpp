@@ -27,3 +27,13 @@ Node::Node() {
 	this->parametersVector = vector<int>();
 	this->variables = vector<Node*>();
 }
+
+int Node::getCountParameters()
+{
+	int count = 0;
+	vector<int> parameters = this->parametersVector;
+	for (int i : parameters) {
+		count += i;
+	}
+	return count;
+}

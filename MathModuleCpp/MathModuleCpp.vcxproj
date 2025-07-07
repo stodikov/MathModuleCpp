@@ -133,6 +133,7 @@
     <ClCompile Include="MathModuleCpp.cpp" />
     <ClCompile Include="MatrixComposition.cpp" />
     <ClCompile Include="Metaoperations.cpp" />
+    <ClCompile Include="MinimizationNode.cpp" />
     <ClCompile Include="Multioperation.cpp" />
     <ClCompile Include="MyNewClass.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="InitialValues.h" />
     <ClInclude Include="MatrixComposition.h" />
     <ClInclude Include="Metaoperations.h" />
+    <ClInclude Include="MinimizationNode.h" />
     <ClInclude Include="Multioperation.h" />
     <ClInclude Include="MyNewClass.h" />
     <ClInclude Include="Node.h" />

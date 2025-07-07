@@ -5,6 +5,7 @@
 #include "Node.h"
 #include "MatrixComposition.h"
 #include "Console.h"
+#include "MinimizationNode.h"
 
 int main()
 {
@@ -19,8 +20,6 @@ int main()
         for (Node* subFormula : formula->spaceMatrix) {
             cout << Console::ConsoleNode(subFormula, PBF->getListParameters()) << "\n" << "\n";
         }
-        //d31 не сходится
     }
-
     return 1;
 }
