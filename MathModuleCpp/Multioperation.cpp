@@ -1,6 +1,7 @@
 #include "Multioperation.h"
 #include "TypesNode.h"
 #include "ConstantVectors.h"
+#include "GeneralFunctions.h"
 #include <math.h>
 
 Multioperation::Multioperation(int rang, vector<int> multioperation)
@@ -16,6 +17,7 @@ vector<vector<Node*>> Multioperation::getMatrix()
 
 vector<vector<Node*>> Multioperation::createMatrix(vector<int> multioperation)
 {
+	GeneralFunctions GF;
 	vector<vector<int>> elements{
 		{1, 3, 5, 7},
 		{2, 3, 6, 7},
@@ -27,17 +29,12 @@ vector<vector<Node*>> Multioperation::createMatrix(vector<int> multioperation)
 	for (int i = 0; i < this->rang; i++) {
 		vector<Node*> matrixRow;
 		for (int j = 0; j < sizeMO; j++) {
-			if (checkElement(elements[i], multioperation[j]))
-				matrixRow.push_back(new Node(TypesNode::CONSTANT, CV.getUnitVector(48)));
+			if (GF.checkElementInVector(elements[i], multioperation[j]))
+				matrixRow.push_back(new Node(TypesNode::CONSTANT, CV.getUnitVector(66)));
 			else
-				matrixRow.push_back(new Node(TypesNode::CONSTANT, CV.getZeroVector(48)));
+				matrixRow.push_back(new Node(TypesNode::CONSTANT, CV.getZeroVector(66)));
 		}
 		matrix.push_back(matrixRow);
 	}
 	return matrix;
-}
-
-bool Multioperation::checkElement(vector<int> elements, int element)
-{
-	return find(elements.begin(), elements.end(), element) != elements.end();
 }

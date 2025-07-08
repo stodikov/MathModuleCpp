@@ -7,14 +7,14 @@
 
 using namespace std;
 
-vector<string> InitialValues::getParametersMO() {
-    vector<string> baseParameters{ "s_1", "s_2", "s_3", "s_4", "s_5", "d_1", "d_2", "d_3" };
-    vector<string> parameters;
-    for (int i = 0; i < 8; i++) {
-        parameters.push_back(baseParameters[i]);
-        parameters.push_back("~" + baseParameters[i]);
-    }
-    return parameters;
+vector<string> InitialValues::getCoefficientsMO() {
+    vector<string> coefficients{ "s_1", "s_2", "s_3", "s_4", "s_5" };
+    return coefficients;
+}
+
+vector<string> InitialValues::getUnknownsMO() {
+    vector<string> unknowns{ "d_1", "d_2", "d_3" };
+    return unknowns;
 }
 
 vector<Node*> InitialValues::getSystemInclusions(ParametersMO* PMO) {

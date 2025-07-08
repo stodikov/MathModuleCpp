@@ -74,7 +74,7 @@ Node* MatrixComposition::calculateElement(int index, vector<Node*> matrix, Node*
 	NodeOperations NO;
 	int j = 1; //index переменной в BF
 	for (int i = index; i < index + rang; i++) {
-		if (variable->type == TypesNode::PARAMETER && variable->parametersVector.size() == 16) {
+		if (variable->type == TypesNode::PARAMETER && variable->parametersVector.size() == 8) {
 			string designation = _PMO->getDesignation(variable->parametersVector);
 			vector<int> vector = _PBF->getVectorParameters(designation + to_string(j));
 			currentVariable = new Node(TypesNode::PARAMETER, vector);
@@ -90,6 +90,6 @@ Node* MatrixComposition::calculateElement(int index, vector<Node*> matrix, Node*
 		}
 		j++;
 	}
-	if (result == nullptr) result = new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(48));
+	if (result == nullptr) result = new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
 	return result;
 }

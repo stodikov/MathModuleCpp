@@ -129,15 +129,17 @@
   <ItemGroup>
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="ConstantVectors.cpp" />
+    <ClCompile Include="GeneralFunctions.cpp" />
     <ClCompile Include="InitialValues.cpp" />
     <ClCompile Include="MathModuleCpp.cpp" />
     <ClCompile Include="MatrixComposition.cpp" />
     <ClCompile Include="Metaoperations.cpp" />
-    <ClCompile Include="MinimizationNode.cpp" />
+    <ClCompile Include="NodeMinimization.cpp" />
     <ClCompile Include="Multioperation.cpp" />
-    <ClCompile Include="MyNewClass.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NodeNegative.cpp" />
     <ClCompile Include="NodeOperations.cpp" />
+    <ClCompile Include="NodeResiadual.cpp" />
     <ClCompile Include="ParametersBF.cpp" />
     <ClCompile Include="ParametersMO.cpp" />
     <ClCompile Include="SystemInclusions.cpp" />
@@ -146,14 +148,16 @@
   <ItemGroup>
     <ClInclude Include="Console.h" />
     <ClInclude Include="ConstantVectors.h" />
+    <ClInclude Include="GeneralFunctions.h" />
     <ClInclude Include="InitialValues.h" />
     <ClInclude Include="MatrixComposition.h" />
     <ClInclude Include="Metaoperations.h" />
-    <ClInclude Include="MinimizationNode.h" />
+    <ClInclude Include="NodeMinimization.h" />
     <ClInclude Include="Multioperation.h" />
-    <ClInclude Include="MyNewClass.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeNegative.h" />
     <ClInclude Include="NodeOperations.h" />
+    <ClInclude Include="NodeResiadual.h" />
     <ClInclude Include="ParametersBF.h" />
     <ClInclude Include="ParametersMO.h" />
     <ClInclude Include="SystemInclusions.h" />
