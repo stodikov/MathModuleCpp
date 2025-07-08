@@ -9,7 +9,8 @@ using namespace std;
 class InitialValues
 {
 public:
-	vector<string> getParametersMO();
+	vector<string> getCoefficientsMO();
+	vector<string> getUnknownsMO();
 	vector<Node*> getSystemInclusions(ParametersMO*);
 };
 

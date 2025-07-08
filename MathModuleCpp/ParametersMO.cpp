@@ -3,9 +3,19 @@
 
 using namespace std;
 
-ParametersMO::ParametersMO(vector<string> parameters)
+ParametersMO::ParametersMO(vector<string> coefficients, vector<string> unknowns)
 {
-    this->parameters = parameters;
+    this->coefficients = coefficients;
+    this->unknowns = unknowns;
+    this->parameters = unionParameters(coefficients, unknowns);
+}
+
+vector<string> ParametersMO::unionParameters(vector<string> coefficients, vector<string> unknowns)
+{
+    vector<string> parameters;
+    for (string coefficient : coefficients) parameters.push_back(coefficient);
+    for (string unknow : unknowns) parameters.push_back(unknow);
+    return parameters;
 }
 
 vector<string> ParametersMO::getListParameters()

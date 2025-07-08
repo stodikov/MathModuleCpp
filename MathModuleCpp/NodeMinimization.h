@@ -4,12 +4,12 @@
 using namespace std;
 
 #pragma once
-class MinimizationNode
+class NodeMinimization
 {
 public:
-	static void sortVariablesInDisjunction(Node*);
+	static vector<Node*> sortVariablesInDisjunction(vector<Node*>);
 	static bool isEqualNodes(Node*, Node*);
-	static void minimizationVariablesInDisjunction(Node*);
+	static vector<Node*> minimizationVariablesInDisjunction(vector<Node*>);
 private:
 	static vector<Node*> deleteRepeatVariables(vector<Node*>);
 	static vector<Node*> reducingVariables(vector<Node*>);

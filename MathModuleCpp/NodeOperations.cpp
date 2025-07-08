@@ -1,7 +1,9 @@
 #include "NodeOperations.h"
 #include "TypesNode.h"
 #include "ConstantVectors.h"
-#include "MinimizationNode.h"
+#include "NodeMinimization.h"
+
+NodeMinimization NM;
 
 Node* NodeOperations::calculateNode(Node* first, Node* second)
 {
@@ -50,9 +52,8 @@ Node* NodeOperations::unionDisjunctionAndNode(Node* disjunction, Node* node)
     for (Node* variable : variables) {
         newVariables.push_back(unionVectors(node, variable));
     }
-    Node* newDisjunction = new Node(TypesNode::DISJUNCTION, newVariables);
-    MinimizationNode::minimizationVariablesInDisjunction(newDisjunction);
-    return disjunction;
+    newVariables = NM.minimizationVariablesInDisjunction(newVariables);
+    return new Node(TypesNode::DISJUNCTION, newVariables);
 }
 
 Node* NodeOperations::disjunctionAndDisjunction(Node* first, Node* second)
@@ -65,9 +66,8 @@ Node* NodeOperations::disjunctionAndDisjunction(Node* first, Node* second)
         stepNode = unionDisjunctionAndNode(second, variable);
         newVariables.insert(newVariables.end(), stepNode->variables.begin(), stepNode->variables.end());
     }
-    Node* disjunction = new Node(TypesNode::DISJUNCTION, newVariables);
-    MinimizationNode::minimizationVariablesInDisjunction(disjunction);
-    return disjunction;
+    newVariables = NM.minimizationVariablesInDisjunction(newVariables);
+    return new Node(TypesNode::DISJUNCTION, newVariables);
 }
 
 Node* NodeOperations::unionNodes(Node* first, Node* second)
@@ -77,27 +77,23 @@ Node* NodeOperations::unionNodes(Node* first, Node* second)
     vector<Node*> newVariables;
     if (first->type == TypesNode::PARAMETER || first->type == TypesNode::CONJUNCTION) {
         if (second->type == TypesNode::PARAMETER || second->type == TypesNode::CONJUNCTION) {
-            Node* disjunction = new Node(TypesNode::DISJUNCTION, vector<Node*>{first, second});
-            MinimizationNode::minimizationVariablesInDisjunction(disjunction);
-            return disjunction;
+            newVariables.push_back(first);
+            newVariables.push_back(second);
         }
-        for (Node* variable : secondVariables) newVariables.push_back(variable);
-        newVariables.push_back(first);
-        Node* disjunction = new Node(TypesNode::DISJUNCTION, newVariables);
-        MinimizationNode::minimizationVariablesInDisjunction(disjunction);
-        return disjunction;
+        else {
+            for (Node* variable : secondVariables) newVariables.push_back(variable);
+            newVariables.push_back(first);
+        }
     }
-    if (second->type == TypesNode::PARAMETER || second->type == TypesNode::CONJUNCTION) {
+    else if (second->type == TypesNode::PARAMETER || second->type == TypesNode::CONJUNCTION) {
         for (Node* variable : firstVariables) newVariables.push_back(variable);
         newVariables.push_back(second);
-        Node* disjunction = new Node(TypesNode::DISJUNCTION, newVariables);
-        MinimizationNode::minimizationVariablesInDisjunction(disjunction);
-        return disjunction;
     }
-    for (Node* variable : firstVariables) newVariables.push_back(variable);
-    for (Node* variable : secondVariables) newVariables.push_back(variable);
-    //variablesFirst.insert(variablesFirst.end(), variablesSecond.begin(), variablesSecond.end());
-    Node* disjunction = new Node(TypesNode::DISJUNCTION, newVariables);
-    MinimizationNode::minimizationVariablesInDisjunction(disjunction);
-    return disjunction;
+    else {
+        for (Node* variable : firstVariables) newVariables.push_back(variable);
+        for (Node* variable : secondVariables) newVariables.push_back(variable);
+        //variablesFirst.insert(variablesFirst.end(), variablesSecond.begin(), variablesSecond.end());
+    }
+    newVariables = NM.minimizationVariablesInDisjunction(newVariables);
+    return new Node(TypesNode::DISJUNCTION, newVariables);
 }

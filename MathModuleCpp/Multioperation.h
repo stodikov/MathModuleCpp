@@ -13,6 +13,5 @@ private:
 	int rang;
 	vector<vector<Node*>> matrix;
 	vector<vector<Node*>> createMatrix(vector<int>);
-	bool checkElement(vector<int>, int);
 };
 
