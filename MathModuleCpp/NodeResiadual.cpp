@@ -3,6 +3,9 @@
 #include "ConstantVectors.h"
 #include "TypesNode.h"
 #include "NodeOperations.h"
+#include "NodeCopy.h"
+#include "Console.h"
+#include <iostream>
 
 Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 	ConstantVectors CV;
@@ -12,9 +15,14 @@ Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 	for (int i = 0; i < limit; i++) {
 		vector<int> binarySet = getBinarySet(i, indexes.size());
 		Node* residual = calculateResidual(node, indexes, binarySet);
-		if (residual->type != TypesNode::CONSTANT || residual->parametersVector[0] == 0) {
+		if (residual->type == TypesNode::CONSTANT && residual->parametersVector[0] == 0) {
+			residuals.clear();
+			return residual;
+		}
+		if (residual->type != TypesNode::CONSTANT) {
 			residuals.push_back(residual);
 		}
+		binarySet.clear();
 	}
 	if (residuals.empty()) {
 		return new Node(TypesNode::CONSTANT, CV.getUnitVector(66));
@@ -23,20 +31,22 @@ Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 		return residuals[0];
 	}
 	Node* newNode = residuals[0];
-	for (int i = 0; i < residuals.size(); i++) {
+	for (int i = 1; i < residuals.size(); i++) {
+		cout << i << "\n";
 		newNode = NO.calculateNode(newNode, residuals[i]);
 	}
+	residuals.clear();
 	return newNode;
 }
 
 Node* NodeResiadual::calculateResidual(Node* node, vector<int> indexes, vector<int> binarySet)
 {
-	//копирование?
+	Node* copyNode = NodeCopy::copyNode(node);
 	Node* newNode;
 	if (node->type == TypesNode::PARAMETER || node->type == TypesNode::CONJUNCTION) {
-		newNode = residualNode(node, indexes, binarySet);
+		newNode = residualNode(copyNode, indexes, binarySet);
 	}
-	newNode = residualDisjunction(node, indexes, binarySet);
+	newNode = residualDisjunction(copyNode, indexes, binarySet);
 	return newNode;
 }
 
@@ -45,7 +55,7 @@ Node* NodeResiadual::residualNode(Node* node, vector<int> indexes, vector<int> b
 	ConstantVectors CV;
 	vector<int> parameters = node->parametersVector;
 	int index = 0, bit = 0;
-	for (int i = 0; i < indexes[i]; i++) {
+	for (int i = 0; i < indexes.size(); i++) {
 		index = indexes[i];
 		bit = binarySet[i];
 		if (parameters[index] == 1) {
@@ -58,7 +68,7 @@ Node* NodeResiadual::residualNode(Node* node, vector<int> indexes, vector<int> b
 		}
 		if (parameters[index + 1] == 1) {
 			if (bit == 0) {
-				parameters[index] = 0;
+				parameters[index + 1] = 0;
 			}
 			else {
 				return new Node(TypesNode::CONSTANT, CV.getZeroVector(66));

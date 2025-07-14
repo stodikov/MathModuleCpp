@@ -1,5 +1,7 @@
 #include "ParametersBF.h"
 #include "GeneralFunctions.h"
+#include "ConstantVectors.h"
+#include "TypesNode.h"
 #include <iostream>
 
 using namespace std;
@@ -88,6 +90,36 @@ vector<int> ParametersBF::getIndexesUnknowns() {
     for (int i = 0; i < parameters.size(); i++) {
         if (GF.checkElementInVector(unknowns, parameters[i])) {
             result.push_back(i);
+        }
+    }
+    return result;
+}
+
+vector<Node*> ParametersBF::getNodesUnknowns() {
+    vector<string> parameters = this->parameters;
+    vector<string> unknowns = this->unknowns;
+    vector<Node*> result;
+    ConstantVectors CV;
+    for (int i = 0; i < parameters.size(); i++) {
+        if (GF.checkElementInVector(unknowns, parameters[i])) {
+            vector<int> unknow = CV.getZeroVector(66);
+            unknow[i] = 1;
+            result.push_back(new Node(TypesNode::PARAMETER, unknow));
+        }
+    }
+    return result;
+}
+
+vector<Node*> ParametersBF::getNodesArbitraries() {
+    vector<string> parameters = this->parameters;
+    vector<string> arbitraries = this->arbitraries;
+    vector<Node*> result;
+    ConstantVectors CV;
+    for (int i = 0; i < parameters.size(); i++) {
+        if (GF.checkElementInVector(arbitraries, parameters[i])) {
+            vector<int> arbitrary = CV.getZeroVector(66);
+            arbitrary[i] = 1;
+            result.push_back(new Node(TypesNode::PARAMETER, arbitrary));
         }
     }
     return result;

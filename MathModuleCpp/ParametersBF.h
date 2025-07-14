@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include "Node.h"
 
 using namespace std;
 
@@ -12,6 +13,8 @@ public:
 	vector<int> getVectorParameters(string);
 	void printParameters();
 	vector<int> getIndexesUnknowns();
+	vector<Node*> getNodesArbitraries();
+	vector<Node*> getNodesUnknowns();
 private:
 	vector<string> coefficients;
 	vector<string> unknowns;

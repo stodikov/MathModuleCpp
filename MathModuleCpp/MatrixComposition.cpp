@@ -12,15 +12,15 @@
 using namespace std;
 
 int rang = 3;
-ParametersBF* _PBF;
-ParametersMO* _PMO;
-Metaoperations _meta;
+ParametersBF* MC_PBF;
+ParametersMO* MC_PMO;
+Metaoperations MC_meta;
 
 void MatrixComposition::getMatrixComposition(Node* formula, ParametersMO* PMO, ParametersBF* PBF)
 {
-	_PBF = PBF;
-	_PMO = PMO;
-	vector<Multioperation*> metaoperations = _meta.getMetaoperations();
+	MC_PBF = PBF;
+	MC_PMO = PMO;
+	vector<Multioperation*> metaoperations = MC_meta.getMetaoperations();
 	vector<Node*> variables = formula->variables;
 
 	for (Node* variable : variables) {
@@ -75,8 +75,8 @@ Node* MatrixComposition::calculateElement(int index, vector<Node*> matrix, Node*
 	int j = 1; //index переменной в BF
 	for (int i = index; i < index + rang; i++) {
 		if (variable->type == TypesNode::PARAMETER && variable->parametersVector.size() == 8) {
-			string designation = _PMO->getDesignation(variable->parametersVector);
-			vector<int> vector = _PBF->getVectorParameters(designation + to_string(j));
+			string designation = MC_PMO->getDesignation(variable->parametersVector);
+			vector<int> vector = MC_PBF->getVectorParameters(designation + to_string(j));
 			currentVariable = new Node(TypesNode::PARAMETER, vector);
 		}
 		else {

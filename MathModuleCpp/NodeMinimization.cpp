@@ -15,6 +15,8 @@ bool NodeMinimization::compareVectors(Node* first, Node* second) {
             return firstVector[i];
         }
     }
+    firstVector.clear();
+    secondVector.clear();
     return false;
 }
 
@@ -27,12 +29,17 @@ vector<Node*> NodeMinimization::sortVariablesInDisjunction(vector<Node*> variabl
 
 bool NodeMinimization::isEqualNodes(Node* first, Node* second)
 {
-    if (first->type == second->type && (first->type == TypesNode::PARAMETER || first->type == TypesNode::CONJUNCTION)) {
+    if (first->type != second->type) {
+        return false;
+    }
+    if (first->type == TypesNode::PARAMETER || first->type == TypesNode::CONJUNCTION || first->type == TypesNode::CONSTANT) {
         return first->parametersVector == second->parametersVector;
     }
     vector<Node*> firstVariables = first->variables;
     vector<Node*> secondVariables = second->variables;
     if (firstVariables.size() != secondVariables.size()) {
+        firstVariables.clear();
+        secondVariables.clear();
         return false;
     }
     for (int i = 0; i < firstVariables.size(); i++) {
@@ -41,7 +48,11 @@ bool NodeMinimization::isEqualNodes(Node* first, Node* second)
         if (firstVector != secondVector) {
             return false;
         }
+        firstVector.clear();
+        secondVector.clear();
     }
+    firstVariables.clear();
+    secondVariables.clear();
     return true;
 }
 
@@ -89,7 +100,7 @@ vector<Node*> NodeMinimization::reducingVariables(vector<Node*> variables)
                 continue;
             }
             if (isInclude(variables[minIndex], variables[i])) {
-                variables[i] = new Node(TypesNode::CONSTANT, CV.getUnitVector(48));
+                variables[i] = new Node(TypesNode::CONSTANT, CV.getUnitVector(66));
             }
         }
     }
@@ -98,6 +109,7 @@ vector<Node*> NodeMinimization::reducingVariables(vector<Node*> variables)
             result.push_back(variable);
         }
     }
+    minIndexes.clear();
     return result;
 }
 
@@ -109,15 +121,15 @@ int NodeMinimization::getMinIndex(vector<Node*> variables, vector<int> minIndexe
         if (variables[i]->type == TypesNode::CONSTANT) {
             continue;
         }
-        if (minIndex == -1 && GF.checkElementInVector(minIndexes, i)) {
+        if (minIndex == -1 && !GF.checkElementInVector(minIndexes, i)) {
             minIndex = i;
             continue;
         }
-        if (variables[i]->type == TypesNode::PARAMETER && GF.checkElementInVector(minIndexes, i)) {
+        if (variables[i]->type == TypesNode::PARAMETER && !GF.checkElementInVector(minIndexes, i)) {
             minIndex = i;
             break;
         }
-        if (minIndex != -1 && variables[minIndex]->getCountParameters() < variables[i]->getCountParameters()) {
+        if (minIndex != -1 && variables[minIndex]->getCountParameters() > variables[i]->getCountParameters() && !GF.checkElementInVector(minIndexes, i)) {
             minIndex = i;
         }
     }
@@ -130,7 +142,7 @@ bool NodeMinimization::isInclude(Node* first, Node* second)
     vector<int> secondVector = second->parametersVector;
     vector<int> result;
     for (int i = 0; i < first->parametersVector.size(); i++) {
-        result.push_back(firstVector[i] | secondVector[i]);
+        result.push_back(firstVector[i] & secondVector[i]);
     }
     return result == firstVector;
 }
