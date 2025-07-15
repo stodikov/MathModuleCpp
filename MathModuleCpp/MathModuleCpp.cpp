@@ -54,9 +54,9 @@ int main()
     vector<Node*> system = IA.getSystemInclusions(PMO);
     for (Node* formula : system) {
         MatrixComposition::getMatrixComposition(formula, PMO, PBF);
-        /*for (Node* subFormula : formula->spaceMatrix) {
+        for (Node* subFormula : formula->spaceMatrix) {
             cout << Console::ConsoleNode(subFormula, PBF->getListParameters()) << "\n" << "\n";
-        }*/
+        }
     }
     Node* inequality = createInequality(system, PBF);
     //cout << Console::ConsoleNode(inequality, PBF->getListParameters()) << "\n" << "\n";

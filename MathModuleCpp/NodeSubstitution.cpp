@@ -43,6 +43,5 @@ Node* NodeSubstitution::substitutionDisjunction(Node* node, Node* element, int i
 			newVariables.push_back(newVariable);
 		}
 	}
-	variables.clear();
 	return new Node(TypesNode::DISJUNCTION, newVariables);
 }

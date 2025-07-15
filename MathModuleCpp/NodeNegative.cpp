@@ -41,7 +41,6 @@ Node* NodeNegative::negativeParameter(Node* parameter)
 		newVector.push_back(currentVector[i + 1]);
 		newVector.push_back(currentVector[i]);
 	}
-	currentVector.clear();
 	return new Node(parameter->type, newVector);
 }
 
@@ -59,7 +58,6 @@ Node* NodeNegative::negativeConjunction(Node* conjunction)
 		Node* newParameter = new Node(TypesNode::PARAMETER, newVector);
 		newVariables.push_back(negativeParameter(newParameter));
 	}
-	currentVector.clear();
 	newVariables = NodeMinimization::minimizationVariablesInDisjunction(newVariables);
 	if (newVariables.size() > 1) return new Node(TypesNode::DISJUNCTION, newVariables);
 	return newVariables[0];
@@ -81,6 +79,5 @@ Node* NodeNegative::negativeDisjunction(Node* disjunction)
 			newNode = NodeOperations::calculateNode(newNode, variable);
 		}
 	}
-	currentVariables.clear();
 	return newNode;
 }

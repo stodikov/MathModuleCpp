@@ -10,6 +10,7 @@ public:
 	Node(int, vector<Node*>);
 	Node(int, vector<int>);
 	Node();
+	~Node();
 	int type;
 	vector<int> parametersVector;
 	vector<Node*> variables;

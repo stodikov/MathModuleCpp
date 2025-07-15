@@ -28,6 +28,12 @@ Node::Node() {
 	this->variables = vector<Node*>();
 }
 
+Node::~Node() {
+	this->parametersVector.clear();
+	this->variables.clear();
+	this->spaceMatrix.clear();
+}
+
 int Node::getCountParameters()
 {
 	int count = 0;

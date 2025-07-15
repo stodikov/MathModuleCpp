@@ -16,7 +16,7 @@ Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 		vector<int> binarySet = getBinarySet(i, indexes.size());
 		Node* residual = calculateResidual(node, indexes, binarySet);
 		if (residual->type == TypesNode::CONSTANT && residual->parametersVector[0] == 0) {
-			residuals.clear();
+			for (Node* node : residuals) node->~Node();
 			return residual;
 		}
 		if (residual->type != TypesNode::CONSTANT) {
@@ -35,7 +35,9 @@ Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 		cout << i << "\n";
 		newNode = NO.calculateNode(newNode, residuals[i]);
 	}
-	residuals.clear();
+
+	for (Node* node : residuals) node->~Node();
+
 	return newNode;
 }
 

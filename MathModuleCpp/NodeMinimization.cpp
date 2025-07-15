@@ -15,8 +15,6 @@ bool NodeMinimization::compareVectors(Node* first, Node* second) {
             return firstVector[i];
         }
     }
-    firstVector.clear();
-    secondVector.clear();
     return false;
 }
 
@@ -35,24 +33,18 @@ bool NodeMinimization::isEqualNodes(Node* first, Node* second)
     if (first->type == TypesNode::PARAMETER || first->type == TypesNode::CONJUNCTION || first->type == TypesNode::CONSTANT) {
         return first->parametersVector == second->parametersVector;
     }
-    vector<Node*> firstVariables = first->variables;
-    vector<Node*> secondVariables = second->variables;
-    if (firstVariables.size() != secondVariables.size()) {
-        firstVariables.clear();
-        secondVariables.clear();
+    if (first->getCountParameters() != second->getCountParameters()) {
         return false;
     }
+    vector<Node*> firstVariables = first->variables;
+    vector<Node*> secondVariables = second->variables;
     for (int i = 0; i < firstVariables.size(); i++) {
         vector<int> firstVector = firstVariables[i]->parametersVector;
         vector<int> secondVector = secondVariables[i]->parametersVector;
         if (firstVector != secondVector) {
             return false;
         }
-        firstVector.clear();
-        secondVector.clear();
     }
-    firstVariables.clear();
-    secondVariables.clear();
     return true;
 }
 
@@ -71,6 +63,7 @@ vector<Node*> NodeMinimization::deleteRepeatVariables(vector<Node*> variables)
     for (int i = 0; i < variables.size(); i++) {
         for (int j = 0; j < variables.size(); j++) {
             if (i != j && isEqualNodes(variables[i], variables[j])) {
+                variables[i]->~Node();
                 variables[i] = new Node(TypesNode::CONSTANT, CV.getZeroVector(66));
             }
         }
@@ -100,6 +93,7 @@ vector<Node*> NodeMinimization::reducingVariables(vector<Node*> variables)
                 continue;
             }
             if (isInclude(variables[minIndex], variables[i])) {
+                variables[i]->~Node();
                 variables[i] = new Node(TypesNode::CONSTANT, CV.getUnitVector(66));
             }
         }
