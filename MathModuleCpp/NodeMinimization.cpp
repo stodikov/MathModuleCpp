@@ -30,7 +30,8 @@ bool NodeMinimization::isEqualNodes(Node* first, Node* second)
     if (first->type != second->type) {
         return false;
     }
-    if (first->type == TypesNode::PARAMETER || first->type == TypesNode::CONJUNCTION || first->type == TypesNode::CONSTANT) {
+    return first->key == second->key;
+    /*if (first->type == TypesNode::PARAMETER || first->type == TypesNode::CONJUNCTION || first->type == TypesNode::CONSTANT) {
         return first->parametersVector == second->parametersVector;
     }
     if (first->getCountParameters() != second->getCountParameters()) {
@@ -46,6 +47,7 @@ bool NodeMinimization::isEqualNodes(Node* first, Node* second)
         }
     }
     return true;
+    */
 }
 
 vector<Node*> NodeMinimization::minimizationVariablesInDisjunction(vector<Node*> variables)
@@ -119,24 +121,38 @@ int NodeMinimization::getMinIndex(vector<Node*> variables, vector<int> minIndexe
             minIndex = i;
             continue;
         }
-        if (variables[i]->type == TypesNode::PARAMETER && !GF.checkElementInVector(minIndexes, i)) {
+        if (minIndex != -1 && !GF.checkElementInVector(minIndexes, i)) {
+            vector<unsigned int> keyI = variables[i]->key;
+            vector<unsigned int> keyMin = variables[minIndex]->key;
+
+            for (int j = 0; j < keyI.size(); j++) {
+                if (keyMin[j] > keyI[j]) {
+                    minIndex = i;
+                    break;
+                }
+            }
+        }
+        /*if (variables[i]->type == TypesNode::PARAMETER && !GF.checkElementInVector(minIndexes, i)) {
             minIndex = i;
             break;
         }
         if (minIndex != -1 && variables[minIndex]->getCountParameters() > variables[i]->getCountParameters() && !GF.checkElementInVector(minIndexes, i)) {
             minIndex = i;
-        }
+        }*/
     }
     return minIndex;
 }
 
 bool NodeMinimization::isInclude(Node* first, Node* second)
 {
-    vector<int> firstVector = first->parametersVector;
-    vector<int> secondVector = second->parametersVector;
-    vector<int> result;
-    for (int i = 0; i < first->parametersVector.size(); i++) {
-        result.push_back(firstVector[i] & secondVector[i]);
+    /*vector<int> firstVector = first->parametersVector;
+    vector<int> secondVector = second->parametersVector;*/
+
+    vector<unsigned int> firstKey = first->key;
+    vector<unsigned int> secondKey = second->key;
+    vector<unsigned int> result;
+    for (int i = 0; i < firstKey.size(); i++) {
+        result.push_back(firstKey[i] & secondKey[i]);
     }
-    return result == firstVector;
+    return result == firstKey;
 }

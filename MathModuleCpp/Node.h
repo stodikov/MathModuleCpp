@@ -15,6 +15,8 @@ public:
 	vector<int> parametersVector;
 	vector<Node*> variables;
 	vector<Node*> spaceMatrix;
+	vector<unsigned int> key;
 	int getCountParameters();
+	vector<unsigned int> createKey();
 };
 

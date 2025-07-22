@@ -10,6 +10,7 @@
 #include "TypesNode.h"
 #include "Console.h"
 #include "Analytical.h"
+#include "ConstantVectors.h"
 #include <map>
 
 Node* createElementSystem(Node* left, Node* right)
@@ -64,5 +65,4 @@ int main()
     for (const auto& pair : result) {
         cout << Console::ConsoleNode(pair.second, PBF->getListParameters()) << "\n" << "\n";
     }
-    return 1;
 }
