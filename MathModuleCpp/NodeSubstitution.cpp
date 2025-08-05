@@ -33,9 +33,9 @@ Node* NodeSubstitution::substitutionDisjunction(Node* node, Node* element, int i
 {
 	vector<Node*> variables = node->variables;
 	vector<Node*> newVariables;
-	for (Node* variable : variables) {
-		Node* newNode = substitutionNode(variable, element, index);
-		if (newNode->type == TypesNode::CONJUNCTION) {
+	for (int i = 0; i < variables.size(); i++) {
+		Node* newNode = substitutionNode(variables[i], element, index);
+		if (newNode->type == TypesNode::CONJUNCTION || newNode->type == TypesNode::PARAMETER) {
 			newVariables.push_back(newNode);
 			continue;
 		}

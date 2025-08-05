@@ -24,7 +24,9 @@ Node* NodeNegative::negativeConstant(Node* constant)
 	if (constant->parametersVector[0] == 0) {
 		newVector = ConstantVectors::getUnitVector(66);
 	}
-	newVector = ConstantVectors::getZeroVector(66);
+	else {
+		newVector = ConstantVectors::getZeroVector(66);
+	}
 	return new Node(TypesNode::CONSTANT, newVector);
 }
 
@@ -67,8 +69,8 @@ Node* NodeNegative::negativeDisjunction(Node* disjunction)
 {
 	vector<Node*> currentVariables = disjunction->variables;
 	vector<Node*> newVariables;
-	for (Node* variable : currentVariables) {
-		newVariables.push_back(calculateNode(variable));
+	for (int i = 0; i < currentVariables.size(); i++) {
+		newVariables.push_back(calculateNode(currentVariables[i]));
 	}
 	Node* newNode = nullptr;
 	for (Node* variable : newVariables) {

@@ -6,6 +6,7 @@
 #include "TypesNode.h"
 #include "ParametersBF.h"
 #include <iostream>
+#include "Console.h"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ map<int, Node*> Analytical::generalSolution(Node* inequality)
 	Node* currentInequality = inequality;
 	map<int, Node*> result;
 
-	while (indexes.size() > 0) {
+	while (indexes.size() != 0) {
 		int currentIndex = indexes[indexes.size() - 1];
 		Node* arbitrary = arbitraries[arbitraries.size() - 1];
 		indexes.pop_back();
@@ -48,10 +49,15 @@ map<int, Node*> Analytical::generalSolution(Node* inequality)
 		Node* nodeWithOne = NodeResiadual::calculateResidual(residualNode, vector<int>{currentIndex}, vector<int>{1});
 		Node* negNodeWithOne = NodeNegative::calculateNode(nodeWithOne);
 		Node* negArbitrary = NodeNegative::calculateNode(arbitrary);
+
 		Node* newNodeWithOne = NodeOperations::calculateNode(negArbitrary, negNodeWithOne);
 
 		result[currentIndex] = NodeOperations::unionNodes(newNodeWithZero, newNodeWithOne);
+
+		//В подстановке есть проблема
 		currentInequality = NodeSubstitution::calculateNode(currentInequality, result[currentIndex], currentIndex);
+
+		cout << Console::ConsoleNode(currentInequality, A_PBF->getListParameters());
 	}
 	return result;
 }

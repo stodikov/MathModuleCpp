@@ -3,9 +3,12 @@
 #include "ConstantVectors.h"
 #include "TypesNode.h"
 #include "NodeOperations.h"
+#include "NodeMinimization.h"
 #include "NodeCopy.h"
 #include "Console.h"
 #include <iostream>
+
+NodeMinimization NR_NM;
 
 Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 	ConstantVectors CV;
@@ -94,6 +97,7 @@ Node* NodeResiadual::residualDisjunction(Node* node, vector<int> indexes, vector
 	if (newVariables.empty()) {
 		return new Node(TypesNode::CONSTANT, CV.getZeroVector(66));
 	}
+	//newVariables = NR_NM.minimizationVariablesInDisjunction(newVariables);
 	return new Node(node->type, newVariables);
 }
 
