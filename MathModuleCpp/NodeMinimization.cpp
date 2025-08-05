@@ -33,16 +33,8 @@ bool NodeMinimization::isEqualNodes(Node* first, Node* second)
 vector<Node*> NodeMinimization::minimizationVariablesInDisjunction(vector<Node*> variables)
 {
     vector<Node*> newVariables = sortVariablesInDisjunction(variables);
-    /*for (int i = 0; i < variables.size(); i++) {
-        vector<int> vector = variables[i]->parametersVector;
-        for (int j = 0; j < vector.size(); j++) {
-            cout << vector[j];
-        }
-        cout << "\n";
-    }*/
     newVariables = deleteRepeatVariables(newVariables);
     newVariables = reducingVariables(newVariables);
-    //system("cls");
     return newVariables;
 }
 
