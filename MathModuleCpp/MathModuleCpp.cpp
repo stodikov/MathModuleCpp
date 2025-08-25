@@ -56,13 +56,13 @@ int main()
     for (Node* formula : system) {
         MatrixComposition::getMatrixComposition(formula, PMO, PBF);
         for (Node* subFormula : formula->spaceMatrix) {
-            cout << Console::ConsoleNode(subFormula, PBF->getListParameters()) << "\n" << "\n";
+            cout << Console::ConsoleNode(subFormula, PBF->getListParameters()) << "\n\n";
         }
     }
     Node* inequality = createInequality(system, PBF);
     //cout << Console::ConsoleNode(inequality, PBF->getListParameters()) << "\n" << "\n";
     map<int, Node*> result = Analytical::getSolution(inequality, PBF);
     for (const auto& pair : result) {
-        cout << Console::ConsoleNode(pair.second, PBF->getListParameters()) << "\n" << "\n";
+        cout << Console::ConsoleNode(pair.second, PBF->getListParameters()) << "\n\n";
     }
 }

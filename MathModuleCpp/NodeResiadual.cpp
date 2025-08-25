@@ -35,7 +35,7 @@ Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 	}
 	Node* newNode = residuals[0];
 	for (int i = 1; i < residuals.size(); i++) {
-		cout << i << "\n";
+		//cout << i << "\n";
 		newNode = NO.calculateNode(newNode, residuals[i]);
 	}
 
@@ -47,11 +47,13 @@ Node* NodeResiadual::calculateGeneralResidual(Node* node, vector<int> indexes) {
 Node* NodeResiadual::calculateResidual(Node* node, vector<int> indexes, vector<int> binarySet)
 {
 	Node* copyNode = NodeCopy::copyNode(node);
-	Node* newNode;
+	Node* newNode = nullptr;
 	if (node->type == TypesNode::PARAMETER || node->type == TypesNode::CONJUNCTION) {
 		newNode = residualNode(copyNode, indexes, binarySet);
 	}
-	newNode = residualDisjunction(copyNode, indexes, binarySet);
+	else {
+		newNode = residualDisjunction(copyNode, indexes, binarySet);
+	}
 	return newNode;
 }
 

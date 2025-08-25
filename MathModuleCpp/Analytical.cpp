@@ -54,10 +54,11 @@ map<int, Node*> Analytical::generalSolution(Node* inequality)
 
 		result[currentIndex] = NodeOperations::unionNodes(newNodeWithZero, newNodeWithOne);
 
+		//cout << Console::ConsoleNode(result[currentIndex], A_PBF->getListParameters()) << "\n\n";
 		//В подстановке есть проблема
 		currentInequality = NodeSubstitution::calculateNode(currentInequality, result[currentIndex], currentIndex);
 
-		cout << Console::ConsoleNode(currentInequality, A_PBF->getListParameters());
+		//cout << Console::ConsoleNode(currentInequality, A_PBF->getListParameters()) << "\n\n";
 	}
 	return result;
 }
