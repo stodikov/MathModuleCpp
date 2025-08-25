@@ -54,7 +54,7 @@ Node* NodeOperations::unionVectors(Node* first, Node* second)
             return new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
         }
     }
-    if (countParameters == newVector.size()) {
+    if (countParameters == newVector.size() || countParameters == 0) {
         return new Node(TypesNode::CONSTANT, newVector);
     }
     return new Node(TypesNode::CONJUNCTION, newVector);
@@ -74,8 +74,12 @@ Node* NodeOperations::unionDisjunctionAndNode(Node* disjunction, Node* node)
             newVariables.push_back(newNode);
         }
     }
-    newVariables = NM.minimizationVariablesInDisjunction(newVariables);
-    if (newVariables.size() > 1) return new Node(TypesNode::DISJUNCTION, newVariables);
+    if (newVariables.size() == 0) return new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
+    if (newVariables.size() > 1) {
+        newVariables = NM.minimizationVariablesInDisjunction(newVariables);
+        if (newVariables.size() > 1) return new Node(TypesNode::DISJUNCTION, newVariables);
+        if (newVariables.size() == 0) return new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
+    }
     return newVariables[0];
 }
 
@@ -96,8 +100,12 @@ Node* NodeOperations::disjunctionAndDisjunction(Node* first, Node* second)
             newVariables.insert(newVariables.end(), stepNode->variables.begin(), stepNode->variables.end());
         }
     }
-    newVariables = NM.minimizationVariablesInDisjunction(newVariables);
-    if (newVariables.size() > 1) return new Node(TypesNode::DISJUNCTION, newVariables);
+    if (newVariables.size() == 0) return new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
+    if (newVariables.size() > 1) {
+        newVariables = NM.minimizationVariablesInDisjunction(newVariables);
+        if (newVariables.size() > 1) return new Node(TypesNode::DISJUNCTION, newVariables);
+        if (newVariables.size() == 0) return new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
+    }
     return newVariables[0];
 }
 
@@ -125,7 +133,11 @@ Node* NodeOperations::unionNodes(Node* first, Node* second)
         for (Node* variable : secondVariables) newVariables.push_back(variable);
         //variablesFirst.insert(variablesFirst.end(), variablesSecond.begin(), variablesSecond.end());
     }
-    newVariables = NM.minimizationVariablesInDisjunction(newVariables);
-    if (newVariables.size() > 1) return new Node(TypesNode::DISJUNCTION, newVariables);
+    if (newVariables.size() == 0) return new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
+    if (newVariables.size() > 1) {
+        newVariables = NM.minimizationVariablesInDisjunction(newVariables);
+        if (newVariables.size() > 1) return new Node(TypesNode::DISJUNCTION, newVariables);
+        if (newVariables.size() == 0) return new Node(TypesNode::CONSTANT, ConstantVectors::getZeroVector(66));
+    }
     return newVariables[0];
 }

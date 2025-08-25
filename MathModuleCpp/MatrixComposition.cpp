@@ -57,7 +57,7 @@ vector<vector<Node*>> MatrixComposition::stepMatrixComposition(vector<vector<Nod
 		vector<Node*> newMatrixRow;
 		for (int j = 0; j < matrix[i].size(); j += rang) {
 			Node* element = calculateElement(j, matrix[i], variable);
-			//cout << Console::ConsoleNode(element, _PBF->getListParameters()) << "\n";
+			//cout << Console::ConsoleNode(element, MC_PBF->getListParameters()) << "\n";
 			int index = j == 0 ? j : j / rang;
 			newMatrixRow.push_back(element);
 		}

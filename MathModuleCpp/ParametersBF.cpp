@@ -65,9 +65,9 @@ vector<string> ParametersBF::createListArbitraries(int count, bool withNeg)
     vector<string> arbitraries;
     for (int i = 0; i < count; i++) {
         for (int j = 0; j < 3; j++) {
-            arbitraries.push_back(designation + "_" + to_string(i + 1) + to_string(j + 1));
+            arbitraries.push_back(designation + "" + to_string(i + 1) + to_string(j + 1));
             if (withNeg) {
-                arbitraries.push_back("~" + designation + " " + to_string(i + 1) + to_string(j + 1));
+                arbitraries.push_back("~" + designation + "" + to_string(i + 1) + to_string(j + 1));
             }
         }
     }
